@@ -14,8 +14,9 @@ var router = express.Router();
  *          name: userId
  *          description: 유저의 id값
  *          required: true
- *          type: integer
- *          example: 1
+ *          schema:
+ *            type: integer
+ *            example: 1
  *      responses:
  *       200:
  *        description: "successful main question-box"
@@ -33,12 +34,13 @@ var router = express.Router();
  *      - "질문 보관서에서 서브 질문 가져오기"
  *      description: /question-box/{userId}/sub
  *      parameters:
- *        - in: query
+ *        - in: path
  *          name: categoryId
  *          required: true
- *          type: integer
- *          description: 카테고리의 ID
- *          example: 1
+ *          schema:
+ *            type: integer
+ *            description: 카테고리의 ID
+ *            example: 1
  *      responses:
  *       200:
  *        description: "successful sub question-box "
@@ -60,7 +62,8 @@ var router = express.Router();
  *        - in: path
  *          name: mainQuestionId
  *          required: true
- *          type: integer
+ *          schema:
+ *            type: integer
  *        - in: query
  *          name: contry
  *          required: true
@@ -87,7 +90,8 @@ var router = express.Router();
  *        - in: path
  *          name: subQuestionId
  *          required: true
- *          type: integer
+ *          schema:
+ *            type: integer
  *        - in: query
  *          name: contry
  *          required: true
@@ -102,7 +106,7 @@ var router = express.Router();
  *              $ref: '#/components/schemas/SubAnswerList'
  * 
  */
- router.get(':userId/main', function(req, res, next) {
+ router.get('/:userId/main', function(req, res, next) {
     return res.status(200).json({
       "mainQuestionList": [{
         "id": 1,
@@ -113,7 +117,7 @@ var router = express.Router();
     });
   });
 
-  router.get(':userId/sub', function(req, res, next) {
+  router.get('/:userId/sub', function(req, res, next) {
     return res.status(200).json({
       "subQuestionList": [{
         "id": 1,
