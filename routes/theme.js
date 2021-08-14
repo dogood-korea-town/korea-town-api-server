@@ -6,8 +6,8 @@ var router = express.Router();
  *  /theme:
  *    get:
  *      tags:
- *      - 내가 가진 테마 리스트 불러오기
- *      description: 테마 리스트 가져오기
+ *      - 테마 리스트 불러오기
+ *      description: 테마 리스트 불러오기 
  *      parameters:
  *        - in: query
  *          name: userId
