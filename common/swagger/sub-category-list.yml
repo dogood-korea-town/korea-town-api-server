@@ -1,0 +1,9 @@
+components:
+  schemas:
+    SubCategoryList:
+      type: object
+      properties:
+        categoryList:
+          type: array
+          items:
+            type: string
