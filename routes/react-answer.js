@@ -6,8 +6,9 @@ var router = express.Router();
  *  /react-answer/{answerId}:
  *    post:
  *      tags:
- *      - 답변 보관소
- *      description: 답변 보관소 - 답변에 대한 공감/신고 하기
+ *      - 오늘의 답장
+ *      - 모두의 답장
+ *      description: 오늘의 답장 및 모두의 답장 - 답변에 대한 공감/신고 하기
  *      parameters:
  *        - in: path
  *          name: answerId

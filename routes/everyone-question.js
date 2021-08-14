@@ -6,10 +6,10 @@ var router = express.Router();
  *  /everyone-question:
  *    post:
  *      tags:
- *      - 모두의 질문
- *      description: 모두의 질문 - 서브 질문 작성하기
+ *      - 질문 평가소
+ *      description: 질문 평가소 - 서브 질문 작성하기
  *      requestBody:
- *        description: 모두의 질문 내용
+ *        description: 질문 평가소 질문 내용
  *        required: true
  *        content:
  *          application/json:
@@ -17,7 +17,7 @@ var router = express.Router();
  *              $ref: '#/components/schemas/EveryonyQuestion'
  *      responses:
  *       200:
- *        description: 모두의 질문 내용 등록 성공
+ *        description: 질문 평가소 질문 내용 등록 성공
  *        content:
  *          application/json:
  *            schema:
