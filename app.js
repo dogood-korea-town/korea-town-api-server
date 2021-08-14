@@ -8,6 +8,11 @@ var { swaggerUi, specs } = require('./common/swagger');
 var indexRouter = require('./routes/index');
 var testRouter = require('./routes/test');
 
+var todayQuestionRouter = require('./routes/today-question');
+var everyoneQuestionRouter = require('./routes/everyone-question');
+var reactAnswerRouter = require('./routes/react-answer');
+var reactQuestionRouter = require('./routes/react-question');
+
 var app = express();
 
 // view engine setup
@@ -23,6 +28,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/', indexRouter);
 app.use('/test', testRouter);
+app.use('/today-question', todayQuestionRouter);
+app.use('/everyone-question', everyoneQuestionRouter);
+app.use('/react-answer', reactAnswerRouter);
+app.use('/react-question', reactQuestionRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

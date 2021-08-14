@@ -1,0 +1,11 @@
+components:
+  schemas:
+    EveryonyQuestion:
+      type: object
+      properties:
+        writerId:
+          type: integer
+        categoryId:
+          type: integer
+        title:
+          type: string
