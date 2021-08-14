@@ -7,7 +7,7 @@ var router = express.Router();
  *    get:
  *      tags:
  *      - 테마 리스트 불러오기
- *      description: 테마 리스트 불러오기
+ *      description: 테마 리스트 불러오기 
  *      parameters:
  *        - in: query
  *          name: userId
