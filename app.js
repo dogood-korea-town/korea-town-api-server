@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var { swaggerUi, specs } = require('./common/swagger');
-
+var cors = require('cors');
 var indexRouter = require('./routes/index');
 var testRouter = require('./routes/test');
 var questionBoxRouter = require('./routes/question-box');
@@ -16,7 +16,24 @@ var reactAnswerRouter = require('./routes/react-answer');
 var reactQuestionRouter = require('./routes/react-question');
 var voteQuestionRouter = require('./routes/vote-question');
 
+var dotenv = require('dotenv');
+if (process.env.NODE_ENV == 'dev') {
+  dotenv.config({
+    path: path.resolve(process.cwd(), ".env")
+  });
+}
+var mysqlConnection = require('./common/db_pool')(process.env.DB_HOST, process.env.DB_USER, 
+  process.env.DB_PASSWORD, process.env.DB_DATABASE, process.env.DB_PORT);
+
 var app = express();
+
+let headers = {
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Headers': 'Content-Type, Cache-Control',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': '*'
+};
+app.use(cors(headers));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,6 +44,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(function(req, res, next) {
+  req.database = mysqlConnection;
+  next();
+})
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/', indexRouter);
