@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="apiMapper">
+
+    <select id="checkNotComplete">
+        select modified is null or date(date_add(max(modified), interval 9 hour)) != date(date_add(now(), interval 9 hour)) as is_not_complete 
+          from answer
+         where mainQuestId is not null 
+           and userId = ${user_id}
+    </select>
+
+    <select id="selMainQuestion">
+        select id, title, number 
+          from mainquest
+         where number = (select count(mainQuestId) + 1 as next_num
+                           from answer
+                          where mainQuestId is not null 
+                            and userId = ${user_id})
+    </select>
+
+
+    <insert id="insertMainAnswer">
+        insert into answer(userId, mainQuestId, themeId, type, content, contry, agreeCnt, reportCnt)
+        values (${userId}, ${mainQuestionId}, ${themeId}, 1, #{content}, #{country}, 0, 0)
+    </insert>
+
+</mapper>
