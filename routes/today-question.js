@@ -82,7 +82,17 @@ router.get('/main', function(req, res, next) {
  */
  router.get('/sub-category-list', function(req, res, next) {
     return res.status(200).json({
-        "categoryList": ["정치", "경제", "사회", "상식", "문화", "역사", "음식", "여행", "의료", "종교", "반려동물", "기타"]
+        "categoryList": [
+          {"id": 1, "categoryName": "정치"},
+          {"id": 2, "categoryName": "사회"},
+          {"id": 3, "categoryName": "상식"},
+          {"id": 4, "categoryName": "문화"},
+          {"id": 5, "categoryName": "역사"},
+          {"id": 6, "categoryName": "음식"},
+          {"id": 7, "categoryName": "여행"},
+          {"id": 8, "categoryName": "의료"},
+          {"id": 9, "categoryName": "종교"}
+        ]
       });
   });
 
