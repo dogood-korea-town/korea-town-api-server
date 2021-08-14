@@ -37,6 +37,13 @@ let mybatisMapper = require('../common/mybatis').mybatisMapper;
  *      description: 질문 보관서에서 서브 질문들 가져오기
  *      parameters:
  *        - in: path
+ *          name : userId
+ *          required: true
+ *          schema:
+ *            type: integer
+ *            description: userId
+ *            example: 1
+ *        - in: query
  *          name: categoryId
  *          required: true
  *          schema:
@@ -121,7 +128,7 @@ let mybatisMapper = require('../common/mybatis').mybatisMapper;
    }
 
    function selectMainQuestionList(connection, callback) {
-      var param;
+      var params;
       let query;
       try {
         params = {
@@ -157,16 +164,81 @@ let mybatisMapper = require('../common/mybatis').mybatisMapper;
   });
 
   router.get('/:userId/sub', function(req, res, next) {
-    return res.status(200).json({
-      "wordCloud": "http://drive.google.com/uc?export=view&id=13BGLkCkauK_OhVU9QWlOfUSY3pgp-8gX",
-      "subQuestionList": [{
-        "id": 1,
-        "number": 1,
-        "title":"우리 동네 찐 맛집은 어디인가요?",
-        "agreeCnt": 100,
-        "modified": "2021-07-10 14:00:00"
-      }]
-    });
+    let categoryId = parseInt(req.query.categoryId)
+    let userId = parseInt(req.params.userId)
+
+    function getConnection(callback) {
+      req.database.getConnection(function (err, connection) {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, connection);
+        }
+      });
+    }
+
+    function selectCategory(connection, callback) {
+      var params;
+      let query;
+      try {
+        params = {
+          categoryId : categoryId
+        }
+        query = mybatisMapper.getStatement('question_box', 'selCategory', params, {language: 'sql', indent: '  '});
+  
+      } catch (err) {
+        connection.release();
+        callback(err);
+      }
+
+      connection.query(query, function (err, results) {
+        if (err) {
+          connection.release();
+          callback(err);
+        } else {
+          var info = (results.length > 0) ? results[0] : {"categoryId" : null, "categoryName": null, "wordcloud": null};
+          callback(null, info, connection);
+        }
+      });
+    }
+
+    function selectSubQuestionList(categoryInfo, connection, callback) {
+      var params;
+      let query;
+      try {
+        params = {
+          categoryId : categoryId,
+          userId : userId
+        }
+        query = mybatisMapper.getStatement('question_box', 'selSubQuestionList', params, {language: 'sql', indent: '  '});
+  
+      } catch (err) {
+        connection.release();
+        callback(err);
+      }
+
+      connection.query(query, function (err, results) {
+        connection.release();
+        if (err) {
+          callback(err);
+        } else {
+          var final = categoryInfo
+          final.subQuestionList = results
+          callback(null, final);
+        }
+      });
+    }
+
+    async.waterfall([getConnection, selectCategory, selectSubQuestionList], function (err, result) {
+      if (err) {
+        let new_err = new Error('sub question list 조회에 실패하였습니다.');
+        new_err.status = err.status;
+        //next(new_err);
+        next(err)
+      } else {
+        res.json(result);
+      }
+     });
   });
 
   router.get('/main/:mainQuestionId/answerList', function(req, res, next) {
@@ -184,7 +256,7 @@ let mybatisMapper = require('../common/mybatis').mybatisMapper;
     }
 
     function selectMainAnswerList(connection, callback) {
-      var param;
+      var params;
       let query;
       try {
         params = {
