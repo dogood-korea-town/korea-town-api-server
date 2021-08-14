@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+let async = require('async');
+let mybatisMapper = require('../common/mybatis').mybatisMapper;
 
 /** 
  * @swagger
@@ -106,15 +108,52 @@ var router = express.Router();
  *              $ref: '#/components/schemas/SubAnswerList'
  * 
  */
- router.get('/:userId/main', function(req, res, next) {
-    return res.status(200).json({
-      "mainQuestionList": [{
-        "id": 1,
-        "number": 1,
-        "title":"당신은 지금 어디에 살고 있나요?",
-        "modified": "2021-07-10 14:00:00"
-      }]
-    });
+  router.get('/:userId/main', function(req, res, next) {
+   let userId = parseInt(req.params.userId)
+   function getConnection(callback) {
+     req.database.getConnection(function (err, connection) {
+       if (err) {
+         callback(err);
+       } else {
+         callback(null, connection);
+       }
+     });
+   }
+
+   function selectMainQuestionList(connection, callback) {
+      var param;
+      let query;
+      try {
+        params = {
+          userId : userId
+        }
+        query = mybatisMapper.getStatement('question_box', 'selMainQuestionList', params, {language: 'sql', indent: '  '});
+  
+      } catch (err) {
+        connection.release();
+        callback(err);
+      }
+
+      connection.query(query, function (err, results) {
+        connection.release();
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, results);
+        }
+      });
+   }
+
+   async.waterfall([getConnection, selectMainQuestionList], function (err, result) {
+    if (err) {
+      let new_err = new Error('main question list 조회에 실패하였습니다.');
+      new_err.status = err.status;
+      next(new_err);
+      //next(err)
+    } else {
+      res.json({'mainQuestionList' : result});
+    }
+   });
   });
 
   router.get('/:userId/sub', function(req, res, next) {
@@ -131,17 +170,55 @@ var router = express.Router();
   });
 
   router.get('/main/:mainQuestionId/answerList', function(req, res, next) {
-    return res.status(200).json({
-      "mainAnswerList": [{
-        "answerId": 1,
-        "userId": 1,
-        "nickname" : "코리안",
-        "themeId" : 1,
-        "content": "어디게~~?",
-        "agreeCnt": 100,
-        "modified": "2021-07-10 14:00:00"
-      }]
-    });
+    let questionId = parseInt(req.params.mainQuestionId)
+    let contry = req.query.contry.toUpperCase()
+
+    function getConnection(callback) {
+      req.database.getConnection(function (err, connection) {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, connection);
+        }
+      });
+    }
+
+    function selectMainAnswerList(connection, callback) {
+      var param;
+      let query;
+      try {
+        params = {
+          mainQuestId : questionId,
+          contry : contry
+        }
+        query = mybatisMapper.getStatement('question_box', 'selMainAnswerList', params, {language: 'sql', indent: '  '});
+  
+      } catch (err) {
+        connection.release();
+        callback(err);
+      }
+
+      connection.query(query, function (err, results) {
+        connection.release();
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, results);
+        }
+      });
+   }
+
+   async.waterfall([getConnection, selectMainAnswerList], function (err, result) {
+    if (err) {
+      let new_err = new Error('main answer list 조회에 실패하였습니다.');
+      new_err.status = err.status;
+      next(new_err);
+      //next(err)
+    } else {
+      res.json({'mainAnswerList' : result});
+    }
+   });
+
   }); 
 
   router.get('/sub/:subQuestionId/answerList', function(req, res, next) {
