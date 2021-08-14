@@ -6,7 +6,7 @@ var router = express.Router();
  *  /theme:
  *    get:
  *      tags:
- *      - 테마 리스트 불러오기
+ *      - 테마
  *      description: 테마 리스트 불러오기 
  *      parameters:
  *        - in: query
@@ -24,7 +24,7 @@ var router = express.Router();
  *              $ref: '#/components/schemas/Theme'
  *    post:
  *      tags:
- *      - 테마 구매하기
+ *      - 테마
  *      description: 테마 구매하기
  *      requestBody:
  *        required: true

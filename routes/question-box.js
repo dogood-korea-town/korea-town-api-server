@@ -7,8 +7,8 @@ var router = express.Router();
  *  /question-box/{userId}/main:
  *    get:
  *      tags:
- *      - "질문 보관서에서 메인 질문 가져오기"
- *      description: question-box/main
+ *      - 오늘의 답장
+ *      description: 질문 보관서에서 메인 질문들 가져오기
  *      parameters:
  *        - in: path
  *          name: userId
@@ -31,8 +31,8 @@ var router = express.Router();
  *  /question-box/{userId}/sub:
  *    get:
  *      tags:
- *      - "질문 보관서에서 서브 질문 가져오기"
- *      description: /question-box/{userId}/sub
+ *      - 모두의 답장
+ *      description: 질문 보관서에서 서브 질문들 가져오기
  *      parameters:
  *        - in: path
  *          name: categoryId
@@ -56,8 +56,8 @@ var router = express.Router();
  *  /question-box/main/{mainQuestionId}/answerList:
  *    get:
  *      tags:
- *      - 메인 질문에 대한 답변 리스트 가져오기
- *      description: question-box/main/{mainQuestionId}/answerList
+ *      - 오늘의 답장
+ *      description: 메인 질문에 대한 답변 리스트 가져오기
  *      parameters:
  *        - in: path
  *          name: mainQuestionId
@@ -84,8 +84,8 @@ var router = express.Router();
  *  /question-box/sub/{subQuestionId}/answerList:
  *    get:
  *      tags:
- *      - 서브 질문에 대한 답변 리스트 가져오기
- *      description: question-box/sub/{subQuestionId}/answerList
+ *      - 모두의 답장
+ *      description: 서브 질문에 대한 답변 리스트 가져오기
  *      parameters:
  *        - in: path
  *          name: subQuestionId
