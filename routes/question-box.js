@@ -119,6 +119,7 @@ var router = express.Router();
 
   router.get('/:userId/sub', function(req, res, next) {
     return res.status(200).json({
+      "wordCloud": "http://drive.google.com/uc?export=view&id=13BGLkCkauK_OhVU9QWlOfUSY3pgp-8gX",
       "subQuestionList": [{
         "id": 1,
         "number": 1,
