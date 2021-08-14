@@ -12,6 +12,7 @@ var todayQuestionRouter = require('./routes/today-question');
 var everyoneQuestionRouter = require('./routes/everyone-question');
 var reactAnswerRouter = require('./routes/react-answer');
 var reactQuestionRouter = require('./routes/react-question');
+var voteQuestionRouter = require('./routes/vote-question');
 
 var app = express();
 
@@ -32,6 +33,7 @@ app.use('/today-question', todayQuestionRouter);
 app.use('/everyone-question', everyoneQuestionRouter);
 app.use('/react-answer', reactAnswerRouter);
 app.use('/react-question', reactQuestionRouter);
+app.use('/vote-question', voteQuestionRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

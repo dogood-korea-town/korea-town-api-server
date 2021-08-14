@@ -3,7 +3,6 @@ components:
     ReactAnswer:
       type: object
       properties:
-        answerId:
-          type: integer
         reactType:
-          type: string
+          type: integer
+          description: '(0: 신고, 1: 공감)'

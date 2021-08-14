@@ -1,0 +1,31 @@
+components:
+  schemas:
+    VoteQuestion:
+      type: object
+      properties:
+        voteType:
+          type: integer
+          description: '(0: 신고, 1: 공감)'
+    VoteQuestionList:
+      type: object
+      properties:
+        questionList:
+          type: array
+          description: 평가 할 질문 목록
+          items:
+            type: object
+            properties:
+              id: 
+                type: integer
+              categoryId:
+                type: integer
+              categoryName:
+                type: string
+              writeId:
+                type: integer
+              writeNickname:
+                type: string
+              title:
+                type: string
+              likeCnt:
+                type: integer
