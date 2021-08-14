@@ -1,0 +1,7 @@
+id,userId,password,nickname,description,profileImg,point,joinDate
+1,test_user_01,test_user_01,테스트유저01,테스트 유저 01 입니다.,http://drive.google.com/uc?export=view&id=10DRf8nwCO04EyIUuPReztgwAZtiodlUU,100,2020-12-15 23:59:59
+2,test_user_02,test_user_02,테스트유저02,테스트 유저 02 입니다.,http://drive.google.com/uc?export=view&id=1IlyU28Icg-7SOoGw96FDk_o4bPGmM5G3,50,2021-02-01 23:59:59
+3,test_user_03,test_user_03,테스트유저03,테스트 유저 03 입니다.,http://drive.google.com/uc?export=view&id=1W-2rTroq4yrF0bKXjypP28hgSWC-zElK,100,2020-12-14 23:59:20
+4,test_user_04,test_user_04,테스트유저04,테스트 유저 04 입니다.,http://drive.google.com/uc?export=view&id=1-fv8NSkJEBWcr5hIpdwhcC2bSiTfqoa-,180,2021-05-01 23:59:21
+5,test_user_05,test_user_05,테스트유저05,테스트 유저 05 입니다.,http://drive.google.com/uc?export=view&id=1FKrEgw0fEQf-wlWn2XRjLP3bx61IXl4q,0,2020-11-15 23:59:32
+6,whysoserious,testman,조커,와따시와 아쿠마다,http://drive.google.com/uc?export=view&id=1sgj7FPOhWvpdh3_ltXt-muFaGTooHeqh,200,2020-02-22 11:59:01
