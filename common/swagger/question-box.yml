@@ -24,6 +24,12 @@ components:
     SubQuestions:
       type: object
       properties:
+        categoryId:
+          type: integer
+          example : 1
+        categoryName:
+          type: string
+          example : "상식"
         wordCloud:
           type: string
           example: "http://drive.google.com/uc?export=view&id=13BGLkCkauK_OhVU9QWlOfUSY3pgp-8gX"

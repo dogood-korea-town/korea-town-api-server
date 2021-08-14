@@ -2,5 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="question_box">
-
+    <select id="selMainQuestionList">
+        select id, `number`, title, modified
+        from mainquest m
+        where id  <![CDATA[ < ]]>  (
+        select count(distinct(date_format(modified , '%Y-%m-%d'))) + 1 as days
+        from answer a 
+        where userId = ${userId}
+        )
+    </select>
+    <select id="selMainAnswerList">
+        select a.id as answerId, a.userId, u.nickname, u.profileImg, a.themeId, a.content, a.agreeCnt, a.modified 
+        from answer a left join `user` u on a.userId = u.id 
+        where a.mainQuestId = ${mainQuestId} and a.contry = #{contry};
+    </select>
+    <select id="selSubQuestionList">
+        select s.id, s.writerId, u.nickname as writerNickname, title, agreeCnt, s.modified
+        from subquest s left join `user` u on s.writerId = u.id 
+        where s.categoryId = ${categoryId} and u.id = ${userId} and s.IsPass = 1
+    </select>
+    <select id="selCategory">
+        select id as categoryId, name as categoryName, wordcloud
+        from category
+        where id = ${categoryId};
+    </select>
 </mapper>
