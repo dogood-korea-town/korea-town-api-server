@@ -1,0 +1,13 @@
+components:
+  schemas:
+    PostItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        
+    PostSuccess:
+      type: object
+      properties:
+        result:
+          type: boolean
