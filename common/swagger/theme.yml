@@ -1,0 +1,30 @@
+components:
+  schemas:
+    Result:
+      type: object
+      properties:
+        result:
+          type: boolean
+          example: true
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+    Theme:
+      type: object
+      properties:
+        mainQuestionList:
+          type: array
+          description: 전체 테마 리스트 
+          items:
+            type: object
+            properties:
+              themeId:
+                type: integer
+              isFree: 
+                type: boolean
+              isPurchase:
+                type: boolean
+              price:
+                type: integer

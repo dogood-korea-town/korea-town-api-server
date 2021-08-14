@@ -7,6 +7,8 @@ var { swaggerUi, specs } = require('./common/swagger');
 
 var indexRouter = require('./routes/index');
 var testRouter = require('./routes/test');
+var questionBoxRouter = require('./routes/question-box');
+var themeRouter = require('./routes/theme');
 
 var app = express();
 
@@ -23,6 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/', indexRouter);
 app.use('/test', testRouter);
+app.use('/question-box', questionBoxRouter);
+app.use('/theme', themeRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

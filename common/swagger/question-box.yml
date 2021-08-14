@@ -1,0 +1,107 @@
+components:
+  schemas:
+    MainQuestions:
+      type: object
+      properties:
+        mainQuestionList:
+          type: array
+          description: main 질문 LIST
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              number: 
+                type: integer
+                example: 1
+              title:
+                type: string
+                example: "당신은 지금 어디에 살고 있나요?"
+              modified:
+                type: datetime
+                example : "2021-03-01 18:01:32:42"
+    SubQuestions:
+      type: object
+      properties:
+        subQuestionList:
+          type: array
+          description: sub 질문 LIST
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              number: 
+                type: integer
+                example: 1
+              title:
+                type: string
+                example: "우리 동네 찐 맛집은 어디인가요?"
+              agreeCnt:
+                type: integer
+                example: 100
+              modified:
+                type: datetime
+                example : "2021-03-01 18:01:32:42"
+    MainAnswerList:
+      type: object
+      properties:
+        mainAnswerList:
+          type: array
+          description: main 질문에 대한 답변들
+          items:
+            type: object
+            properties:
+              answerId:
+                type: integer
+                example: 1
+              userId: 
+                type: integer
+                example: 1
+              nickname:
+                type: string
+                example: "코리안"
+              themeId:
+                type: integer
+                example: 1
+              content:
+                type: string
+                example: "우리 동네에 맛집이 없어요ㅠ"
+              agreeCnt:
+                type: integer
+                example: 100
+              modified:
+                type: datetime
+                example : "2021-03-01 18:01:32:42"
+    SubAnswerList:
+      type: object
+      properties:
+        mainAnswerList:
+          type: array
+          description: sub 질문에 대한 답변들
+          items:
+            type: object
+            properties:
+              answerId:
+                type: integer
+                example: 1
+              userId: 
+                type: integer
+                example: 1
+              nickname:
+                type: string
+                example: "코리안"
+              themeId:
+                type: integer
+                example: 1
+              content:
+                type: string
+                example: "어디게~~?"
+              agreeCnt:
+                type: integer
+                example: 100
+              modified:
+                type: datetime
+                example : "2021-03-01 18:01:32:42"
