@@ -6,4 +6,9 @@ components:
         categoryList:
           type: array
           items:
-            type: string
+            type: object
+            properties:
+              id:
+                type: integer
+              categoryName:
+                type: string
