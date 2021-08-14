@@ -1,0 +1,8 @@
+components:
+  schemas:
+    ReactAnswer:
+      type: object
+      properties:
+        reactType:
+          type: integer
+          description: '(0: 신고, 1: 공감)'

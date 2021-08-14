@@ -1,0 +1,53 @@
+components:
+  schemas:
+    TodayMainQuestion:
+      type: object
+      properties:
+        title:
+          type: string
+        number:
+          type: integer
+
+    TodaySubQuestion:
+      type: object
+      properties:
+        categoryName:
+          type: string
+        title:
+          type: string
+
+    MainAnswer:
+      type: object
+      properties:
+        userId:
+          type: integer
+        mainQuestId:
+          type: integer
+        themeId:
+          type: integer
+        type:
+          type: integer
+        content:
+          type: string
+        latitude:
+          type: integer
+        longitude:
+          type: integer
+
+    SubAnswer:
+      type: object
+      properties:
+        userId:
+          type: integer
+        subQuestId:
+          type: integer
+        themeId:
+          type: integer
+        type:
+          type: integer
+        content:
+          type: string
+        latitude:
+          type: integer
+        longitude:
+          type: integer

@@ -6,7 +6,7 @@ var router = express.Router();
  *  /test:
  *    get:
  *      tags:
- *      - test
+ *      - TEST
  *      description: 테스트 조회
  *      parameters:
  *        - in: query
