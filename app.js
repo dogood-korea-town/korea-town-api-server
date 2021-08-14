@@ -79,4 +79,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+// module.exports = app;
+var server = app.listen(process.env.PORT || 3000, function() {
+  console.log('Express server listening on port ' + server.address().port);
+});
