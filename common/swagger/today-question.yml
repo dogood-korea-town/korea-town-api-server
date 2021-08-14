@@ -3,6 +3,8 @@ components:
     TodayMainQuestion:
       type: object
       properties:
+        id:
+          type: integer
         title:
           type: string
         number:
@@ -21,18 +23,15 @@ components:
       properties:
         userId:
           type: integer
-        mainQuestId:
-          type: integer
         themeId:
-          type: integer
-        type:
           type: integer
         content:
           type: string
         latitude:
-          type: integer
+          type: number
         longitude:
-          type: integer
+          type: number
+          description: latitude 41.9028, longitude 12.4964 - ITA(이탈리아)
 
     SubAnswer:
       type: object
@@ -43,11 +42,10 @@ components:
           type: integer
         themeId:
           type: integer
-        type:
-          type: integer
         content:
           type: string
         latitude:
-          type: integer
+          type: number
         longitude:
-          type: integer
+          type: number
+          description: latitude 41.9028, longitude 12.4964 - ITA(이탈리아)
