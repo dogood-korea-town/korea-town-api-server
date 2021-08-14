@@ -1,0 +1,9 @@
+components:
+  schemas:
+    ReactAnswer:
+      type: object
+      properties:
+        answerId:
+          type: integer
+        reactType:
+          type: string
