@@ -1,7 +1,0 @@
-components:
-  schemas:
-    ReactQuestion:
-      type: object
-      properties:
-        subQuestionId:
-          type: integer
