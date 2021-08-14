@@ -3,13 +3,20 @@ var router = express.Router();
 
 /** 
  * @swagger
- *  /react-answer:
+ *  /react-answer/{answerId}:
  *    post:
  *      tags:
  *      - 답변 보관소
- *      description: 답변 보관소 - 답변에 공감/신고 하기
+ *      description: 답변 보관소 - 답변에 대한 공감/신고 하기
+ *      parameters:
+ *        - in: path
+ *          name: answerId
+ *          required: true
+ *          schema:
+ *            type: integer
+ *            description: 답변 ID
  *      requestBody:
- *        description: 답변에 공감/신고
+ *        description: 답변에 대한 공감/신고
  *        required: true
  *        content:
  *          application/json:
@@ -17,13 +24,13 @@ var router = express.Router();
  *              $ref: '#/components/schemas/ReactAnswer'
  *      responses:
  *       200:
- *        description: 답변에 공감/신고 등록 성공
+ *        description: 답변에 대한 공감/신고 등록 성공
  *        content:
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/PostSuccess'
  */
-router.post('/', function(req, res, next) {
+router.post('/:answerId', function(req, res, next) {
   return res.status(200).json({
     "result": true
   });
