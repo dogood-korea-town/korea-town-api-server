@@ -249,21 +249,58 @@ router.get('/main', function(req, res, next) {
  *            schema:
  *              $ref: '#/components/schemas/SubCategoryList'
  */
- router.get('/sub-category-list', function(req, res, next) {
-    return res.status(200).json({
-        "categoryList": [
-          {"id": 1, "categoryName": "정치"},
-          {"id": 2, "categoryName": "사회"},
-          {"id": 3, "categoryName": "상식"},
-          {"id": 4, "categoryName": "문화"},
-          {"id": 5, "categoryName": "역사"},
-          {"id": 6, "categoryName": "음식"},
-          {"id": 7, "categoryName": "여행"},
-          {"id": 8, "categoryName": "의료"},
-          {"id": 9, "categoryName": "종교"}
-        ]
-      });
+router.get('/sub-category-list', function(req, res, next) {
+
+  function getConnection(callback) {
+    req.database.getConnection(function (err, connection) {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, connection);
+      }
+    });
+  }
+
+  function selSubCategoryList(connection, callback) {
+    let param;
+    let query;
+    try {
+      param = {
+      };
+      query = mybatisMapper.getStatement('apiMapper', 'selSubCategoryList', param, {language: 'sql', indent: '  '});
+
+    } catch (err) {
+      connection.release();
+      callback(err);
+    }
+
+    connection.query(query, function (err, subCategoryListResult) {
+      connection.release();
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, subCategoryListResult);
+      }
+    });
+  }
+
+  function resultJSON(subCategoryListResult, callback) {
+    let result = {
+      "categoryList": subCategoryListResult
+    }
+    callback(null, result);
+  }
+
+  async.waterfall([getConnection, selSubCategoryList, resultJSON], function (err, result) {
+    if (err) {
+      let new_err = new Error('카테고리 조회에 실패하였습니다.');
+      new_err.status = err.status;
+      next(new_err);
+    } else {
+      res.json(result);
+    }
   });
+});
 
 
 /** 
@@ -295,10 +332,69 @@ router.get('/main', function(req, res, next) {
  *              $ref: '#/components/schemas/TodaySubQuestion'
  */
  router.get('/sub', function(req, res, next) {
-    return res.status(200).json({
-        "categoryName": "영화",
-        "title": "좋아하는 영화 제목은 무엇인가요?"
+    let userId = req.query.userId;
+    let categoryId = req.query.categoryId;
+
+    if (userId == 0) {
+      return res.status(200).json({
+        "id": 1,
+        "title": "좋아하는 영화 제목은 무엇인가요?",
+        "categoryName": "영화"
       });
+    }
+
+    function getConnection(callback) {
+      req.database.getConnection(function (err, connection) {
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, connection);
+        }
+      });
+    }
+  
+    function selSubQuestion(connection, callback) {
+      let param;
+      let query;
+      try {
+        param = {
+          userId: userId,
+          categoryId: categoryId
+        };
+        query = mybatisMapper.getStatement('apiMapper', 'selSubQuestion', param, {language: 'sql', indent: '  '});
+  
+      } catch (err) {
+        connection.release();
+        callback(err);
+      }
+  
+      connection.query(query, function (err, subQuestionResult) {
+        connection.release();
+        if (err) {
+          callback(err);
+        } else {
+          callback(null, subQuestionResult);
+        }
+      });
+    }
+  
+    function resultJSON(subQuestionResult, callback) {
+      let result = {}
+      if (subQuestionResult.length > 0) {
+        result = subQuestionResult[0]
+      }
+      callback(null, result);
+    }
+  
+    async.waterfall([getConnection, selSubQuestion, resultJSON], function (err, result) {
+      if (err) {
+        let new_err = new Error('서브 질문  조회에 실패하였습니다.');
+        new_err.status = err.status;
+        next(new_err);
+      } else {
+        res.json(result);
+      }
+    });    
   });
 
 /** 
@@ -331,9 +427,84 @@ router.get('/main', function(req, res, next) {
  *              $ref: '#/components/schemas/PostItem'
  */
 router.post('/sub/:subQuestionId/answer', function(req, res, next) {
-  return res.status(200).json({
-      "id": 7
+  let subQuestionId = parseInt(req.params.subQuestionId);
+  let userId = req.body.userId;
+  let themeId = req.body.themeId;
+  let content = req.body.content;
+  let latitude = req.body.latitude;
+  let longitude = req.body.longitude;
+
+  if (userId == 0) {
+    return res.status(200).json({
+      "id": 3
     });
+  }
+
+  function getConnection(callback) {
+    req.database.getConnection(function (err, connection) {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, connection);
+      }
+    });
+  }
+
+  function getCountry(connection, callback) {
+    let countryCodes = countryIso.get(latitude, longitude);
+    let country = 'ETC'
+    if (countryCodes.length > 0) {
+      country = countryCodes[0]
+    }
+    callback(null, connection, country);
+  }
+
+  function insertSubAnswer(connection, country, callback) {
+    let param;
+    let query;
+    try {
+      param = {
+        subQuestionId: subQuestionId,
+        userId: userId,
+        themeId: themeId,
+        content: content,
+        country: country,
+      };
+      query = mybatisMapper.getStatement('apiMapper', 'insertSubAnswer', param, {language: 'sql', indent: '  '});
+
+    } catch (err) {
+      connection.release();
+      callback(err);
+    }
+
+    connection.query(query, function (err, insertResult) {
+      connection.release();
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, insertResult);
+      }
+    });
+  }
+
+  function resultJSON(insertResult, callback) {
+    let result = {
+      'id': insertResult.insertId
+    };
+    callback(null, result);
+  }
+
+  async.waterfall([getConnection, getCountry, insertSubAnswer, resultJSON], function (err, result) {
+    if (err) {
+      let new_err = new Error('서브 질문 답변 등록에 실패하였습니다.');
+      new_err.status = err.status;
+      new_err.message += ' 상세:' + err.message;
+      next(new_err);
+    } else {
+      res.json(result);
+    }
+  });
+
 });
 
 module.exports = router;

@@ -13,6 +13,8 @@ components:
     TodaySubQuestion:
       type: object
       properties:
+        id:
+          type: integer
         categoryName:
           type: string
         title:
@@ -37,8 +39,6 @@ components:
       type: object
       properties:
         userId:
-          type: integer
-        subQuestId:
           type: integer
         themeId:
           type: integer
