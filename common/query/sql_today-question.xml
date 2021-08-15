@@ -18,10 +18,30 @@
                             and userId = ${user_id})
     </select>
 
-
     <insert id="insertMainAnswer">
         insert into answer(userId, mainQuestId, themeId, type, content, contry, agreeCnt, reportCnt)
         values (${userId}, ${mainQuestionId}, ${themeId}, 1, #{content}, #{country}, 0, 0)
+    </insert>
+
+    <select id="selSubCategoryList">
+        select id, name as categoryName
+          from category
+    </select>
+
+    <select id="selSubQuestion">
+        select s.id as id, c.name as categoryName, s.title as title
+          from subquest s 
+          left join (select subQuestId from answer where userId = ${userId}) a on s.id = a.subQuestId
+          left join category c on s.categoryId = c.id
+         where IsPass is true 
+           and categoryId = ${categoryId}
+           and a.subQuestId is null 
+         order by rand() limit 1
+    </select>
+
+    <insert id="insertSubAnswer">
+        insert into answer(userId, subQuestId, themeId, type, content, contry, agreeCnt, reportCnt)
+        values (${userId}, ${subQuestionId}, ${themeId}, 2, #{content}, #{country}, 0, 0)
     </insert>
 
 </mapper>
